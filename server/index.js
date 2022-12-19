@@ -3,7 +3,8 @@ const app=express()
 const cors=require('cors')
 const mongoose=require('mongoose');
 const FriendModel = require('./models/friends');
-//require('dotenv').config()
+const dotenv=require('dotenv')
+dotenv.config()
 mongoose.set('strictQuery', true); 
 app.use(express.json())
 app.use(cors())
@@ -18,7 +19,14 @@ app.use(cors())
 //     console.log('Connection succesfull')
 // }).catch((err)=>console.log('no connection',err))
 
-mongoose.connect('mongodb://0.0.0.0:27017/pedro',)
+const DB='mongodb+srv://sonu_ssh:2RKIE6GWvVbiETtm@cluster0.pvmtrj0.mongodb.net/pedro-mern?retryWrites=true&w=majority'
+
+mongoose.connect(DB,{
+    useNewUrlParser:true,
+    useUnifiedTopology:true
+}).then(()=>{
+    console.log('success')
+})
 
 //AddFriend API
 app.post('/addFriend',async(req,res)=>{
@@ -80,4 +88,4 @@ app.delete('/delete/:_id',async(req,res)=>{
 })
 
 
-app.listen(3001)
+app.listen(process.env.PORT||3001)
